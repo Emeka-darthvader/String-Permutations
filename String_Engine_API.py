@@ -75,13 +75,8 @@ def generateCombo(word):
     return allCombinations
 
 
-def outputCombo(words):
-    combinations = []
-    
-    combinations.append(words)
-    print("combinations",combinations)
-    return combinations
 
+#function for swapping the letters in a word
 def swapLetters(words,startingIndex,lastIndex):
     combinations = []
     lengthOfWords = len(words)
@@ -105,11 +100,12 @@ def swapLetters(words,startingIndex,lastIndex):
     return combinations
     
     
-
+#function for sorting the words
 def sortList (words):
     sortedWords = sorted(words)
     return sortedWords
 
+#function for creating unique lists
 def createUniqueList(words):
     uniqueList = []
     for word in words:
@@ -117,6 +113,7 @@ def createUniqueList(words):
             uniqueList.append(word)
     return uniqueList
 
+#function for finding index of a word
 def findIndex(term, Word):
     if term in Word:
         index = Word.index(term)
@@ -149,6 +146,8 @@ def getErrorStatements(errorCode):
     else :
         return defaultErrorMEssage
 
+#Flask API routes
+
 @app.route('/',methods=['GET','POST'])
 def index():
     #some_json = request.get_json()
@@ -158,16 +157,23 @@ def index():
 @app.route('/permutation-index/<string:word>',methods=['GET'])
 def getPermutation(word):
     if (request.method == 'GET'):
-       # word = request.args.get('word')
+       #get the input
         wordInput = word
+
+        #generate all possible permutations
         word = generateCombo(word)
+
+        #sort list alphabetically
         word = sortList(word)
+
+        #remove duplicates
         word = createUniqueList(word)
 
+        #find the index of the word
         findWord = findIndex(wordInput,word)
         index = findWord + 1
 
-
+        #return the index
 
         return jsonify({"indexOfGivenPermutation" : index}),201
     else:
